@@ -1,5 +1,5 @@
 {
-  "name": "analizador-de-instrumentos-de-evaluacion-taxonomia-de-bloom",
+  "name": "analizador-de-instrumentos-de-evaluación-(taxonomía-de-bloom)",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,14 +9,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/genai": "^1.4.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "recharts": "^2.15.3",
     "pdfjs-dist": "^4.5.136",
+    "pdfjs-dist/build/pdf.worker.min.mjs": "latest",
     "mammoth": "^1.8.0",
+    "@/components/InstrumentForm": "latest",
+    "firebase/app": "10.12.4",
+    "firebase/firestore": "10.12.4",
+    "firebase/analytics": "10.12.4",
     "firebase": "10.12.4"
   },
   "devDependencies": {
+    "@types/node": "^22.14.0",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   }
