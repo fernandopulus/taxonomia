@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analizador Taxonomía de Bloom</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar for webkit browsers */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    body {
+      font-family: 'Inter', sans-serif; /* A clean, modern font often used with Tailwind */
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.4.0",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "recharts": "https://esm.sh/recharts@^2.15.3",
+    "pdfjs-dist": "https://esm.sh/pdfjs-dist@^4.5.136",
+    "pdfjs-dist/build/pdf.worker.min.mjs": "https://esm.sh/pdfjs-dist@^4.5.136/build/pdf.worker.min.mjs",
+    "mammoth": "https://esm.sh/mammoth@^1.8.0",
+    "@/components/InstrumentForm": "./components/InstrumentForm.tsx",
+    "firebase/app": "https://esm.sh/firebase@10.12.4/app",
+    "firebase/firestore": "https://esm.sh/firebase@10.12.4/firestore",
+    "firebase/analytics": "https://esm.sh/firebase@10.12.4/analytics",
+    "firebase/": "https://esm.sh/firebase@10.12.4/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-100 text-slate-800">
+  <div id="root"></div>
+  <script type="module">
+    // The pdf.js worker source is configured within InstrumentForm.tsx.
+    // Firebase is initialized within App.tsx via firebase/firebase.ts.
+
+    // IMPORTANT: Regarding the Gemini API Key (process.env.API_KEY):
+    // This application attempts to use 'process.env.API_KEY' for the Google Gemini service.
+    // In a typical client-side deployment without a specific build step to replace these
+    // variables, 'process.env.API_KEY' will be undefined.
+    // For development, you might need to manually define this variable in your environment
+    // or temporarily in the code (not recommended for shared code).
+    // For production, DO NOT expose your Gemini API key directly in client-side code.
+    // Use a secure backend (e.g., Firebase Functions) to proxy requests to the Gemini API.
+  </script>
+
+  <!-- 
+    ****************************************************************************************
+    ** CRITICAL FOR BROWSER COMPATIBILITY AND DEPLOYMENT (e.g., on Firebase Hosting):     **
+    ** The script below (index.tsx) and other .tsx files (like those in ./components)     **
+    ** use TypeScript and JSX. Browsers DO NOT understand .tsx files natively.            **
+    **                                                                                    **
+    ** If this application is not rendering ("blank screen"), it's very likely because    **
+    ** these .tsx files are not being transpiled into standard JavaScript (.js) before    **
+    ** being served to the browser.                                                       **
+    **                                                                                    **
+    ** For deployment (e.g., with `firebase deploy`), you MUST ensure you are deploying   **
+    ** the output of a build process (e.g., from Vite, Parcel, tsc, esbuild, Webpack)     **
+    ** that converts .tsx files into .js files.                                           **
+    **                                                                                    **
+    ** Your development environment might handle this transpilation automatically,        **
+    ** but for a static hosting deployment, this build step is essential.                 **
+    ****************************************************************************************
+  -->
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

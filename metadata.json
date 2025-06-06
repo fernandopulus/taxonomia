@@ -1,0 +1,5 @@
+{
+  "name": "Analizador de Instrumentos de Evaluación (Taxonomía de Bloom)",
+  "description": "Aplicación web para analizar instrumentos de evaluación del Liceo Industrial de Recoleta según la Taxonomía de Bloom, identificando habilidades predominantes y permitiendo un análisis institucional consolidado.",
+  "requestFramePermissions": []
+}
