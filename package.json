@@ -14,7 +14,7 @@
     "react-dom": "^19.1.0",
     "recharts": "^2.15.3",
     "pdfjs-dist": "^4.5.136",
-    "pdfjs-dist: "latest",
+    "pdfjs-dist": "latest",
     "mammoth": "^1.8.0",
     "@/components/InstrumentForm": "latest",
     "firebase/app": "10.12.4",
