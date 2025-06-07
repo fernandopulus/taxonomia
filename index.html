@@ -42,9 +42,8 @@
     "mammoth": "https://esm.sh/mammoth@^1.8.0",
     "@/components/InstrumentForm": "./components/InstrumentForm.tsx",
     "firebase/app": "https://esm.sh/firebase@10.12.4/app",
-    "firebase/firestore": "https://esm.sh/firebase@10.12.4/firestore",
     "firebase/analytics": "https://esm.sh/firebase@10.12.4/analytics",
-    "firebase/": "https://esm.sh/firebase@10.12.4/"
+    "firebase/": "https://esm.sh/firebase@^11.9.0/"
   }
 }
 </script>
@@ -54,36 +53,9 @@
   <div id="root"></div>
   <script type="module">
     // The pdf.js worker source is configured within InstrumentForm.tsx.
-    // Firebase is initialized within App.tsx via firebase/firebase.ts.
-
-    // IMPORTANT: Regarding the Gemini API Key (process.env.API_KEY):
-    // This application attempts to use 'process.env.API_KEY' for the Google Gemini service.
-    // In a typical client-side deployment without a specific build step to replace these
-    // variables, 'process.env.API_KEY' will be undefined.
-    // For development, you might need to manually define this variable in your environment
-    // or temporarily in the code (not recommended for shared code).
-    // For production, DO NOT expose your Gemini API key directly in client-side code.
-    // Use a secure backend (e.g., Firebase Functions) to proxy requests to the Gemini API.
+    // Additional global configuration here is generally not needed if the
+    // component-level setup is effective and executes before PDF processing.
   </script>
-
-  <!-- 
-    ****************************************************************************************
-    ** CRITICAL FOR BROWSER COMPATIBILITY AND DEPLOYMENT (e.g., on Firebase Hosting):     **
-    ** The script below (index.tsx) and other .tsx files (like those in ./components)     **
-    ** use TypeScript and JSX. Browsers DO NOT understand .tsx files natively.            **
-    **                                                                                    **
-    ** If this application is not rendering ("blank screen"), it's very likely because    **
-    ** these .tsx files are not being transpiled into standard JavaScript (.js) before    **
-    ** being served to the browser.                                                       **
-    **                                                                                    **
-    ** For deployment (e.g., with `firebase deploy`), you MUST ensure you are deploying   **
-    ** the output of a build process (e.g., from Vite, Parcel, tsc, esbuild, Webpack)     **
-    ** that converts .tsx files into .js files.                                           **
-    **                                                                                    **
-    ** Your development environment might handle this transpilation automatically,        **
-    ** but for a static hosting deployment, this build step is essential.                 **
-    ****************************************************************************************
-  -->
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>
