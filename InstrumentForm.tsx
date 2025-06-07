@@ -143,7 +143,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
           id="instrumentTitle"
           value={instrumentTitle}
           onChange={(e) => setInstrumentTitle(e.target.value)}
-          className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
+          className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           placeholder="Ej: Prueba de Matemática Unidad 1"
           maxLength={100}
           aria-required="true"
@@ -162,7 +162,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
                 ref={fileInputRef}
                 accept=".pdf,.doc,.docx,.txt,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                 onChange={handleFileChange}
-                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
+                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 disabled:opacity-50"
                 disabled={isFileProcessing || isLoading}
                 aria-describedby="fileProcessingMessage"
             />
@@ -182,7 +182,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
           </div>
         )}
          {isFileProcessing && (
-            <div id="fileProcessingMessage" className="mt-1 text-sm text-blue-600 flex items-center">
+            <div id="fileProcessingMessage" className="mt-1 text-sm text-indigo-600 flex items-center">
                 <SpinnerIcon className="w-4 h-4 mr-2 animate-spin"/> 
                 Procesando archivo...
             </div>
@@ -211,7 +211,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
           rows={10}
           value={instrumentText}
           onChange={handleTextareaChange}
-          className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm disabled:bg-slate-50"
+          className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm disabled:bg-slate-50"
           placeholder="El contenido del archivo procesado aparecerá aquí. También puede pegar texto directamente."
           disabled={isFileProcessing || isLoading}
           aria-required="true"
@@ -227,7 +227,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
             id="subject"
             value={selectedSubject}
             onChange={(e) => setSelectedSubject(e.target.value as Subject)}
-            className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm bg-white disabled:bg-slate-50"
+            className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-white disabled:bg-slate-50"
             disabled={isFileProcessing || isLoading}
             aria-required="true"
           >
@@ -245,7 +245,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
             id="grade"
             value={selectedGrade}
             onChange={(e) => setSelectedGrade(e.target.value as GradeLevel)}
-            className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm bg-white disabled:bg-slate-50"
+            className="w-full p-3 border border-slate-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-white disabled:bg-slate-50"
             disabled={isFileProcessing || isLoading}
             aria-required="true"
           >
@@ -262,7 +262,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
       <button
         type="submit"
         disabled={isLoading || isFileProcessing}
-        className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-slate-400"
+        className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-slate-400"
       >
         {isLoading ? (
           <>
