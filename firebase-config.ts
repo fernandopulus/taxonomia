@@ -1,6 +1,6 @@
 
-import { initializeApp } from "firebase/app";
-import { getAnalytics, isSupported } from "firebase/analytics";
+import { initializeApp, FirebaseApp } from 'firebase/app'; 
+import { getAnalytics, isSupported as isAnalyticsSupported, Analytics } from 'firebase/analytics';
 
 // Firebase configuration using environment variables
 // These variables should be defined in your environment (e.g., .env file or CI/CD variables)
@@ -15,27 +15,29 @@ const firebaseConfig = {
   measurementId: process.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase App
+const app: FirebaseApp = initializeApp(firebaseConfig);
 
 // Initialize Analytics and export it
-// Check if Analytics is supported in the current environment
-let analytics;
+let analyticsInstance: Analytics | undefined;
+
 if (typeof window !== 'undefined') {
-  isSupported().then((supported) => {
-    if (supported) {
-      analytics = getAnalytics(app);
-      console.log("Firebase Analytics initialized.");
+  isAnalyticsSupported().then((isSupported) => {
+    if (isSupported) {
+      analyticsInstance = getAnalytics(app);
+      console.log("Firebase Analytics initialized successfully (v9+).");
     } else {
-      console.log("Firebase Analytics is not supported in this environment.");
+      console.log("Firebase Analytics is not supported in this environment (v9+).");
     }
   }).catch(error => {
-    console.error("Error checking Firebase Analytics support:", error);
+    console.error("Error checking/initializing Firebase Analytics (v9+):", error);
   });
 }
 
-
-export { app, analytics };
+// App.tsx imports `app` and `analytics`.
+// `analyticsInstance` is initialized asynchronously.
+// The app currently only logs the analytics instance, so its potential initial undefined state is acceptable.
+export { app, analyticsInstance as analytics };
 
 // Ensure you have the following environment variables set in your Firebase/Cloud Build
 // environment or your local .env file if using Vite (or other build tools):
@@ -50,3 +52,5 @@ export { app, analytics };
 // The Gemini API key (process.env.API_KEY) must be used as specified.
 // Your build tool (e.g., Vite, Webpack, Parcel) needs to be configured
 // to replace process.env.VITE_FIREBASE_... with the actual values at build time.
+// For Cloud Run, these (VITE_FIREBASE_... and API_KEY) should be set as environment variables
+// in the Cloud Run service configuration.
