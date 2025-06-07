@@ -5,28 +5,19 @@ import { BLOOM_LEVELS_LIST } from "../constants";
 
 const API_KEY = process.env.API_KEY;
 
-let ai: GoogleGenAI | null = null;
-
-if (API_KEY) {
-  ai = new GoogleGenAI({ apiKey: API_KEY });
-} else {
-  console.warn(
-    "API_KEY for Gemini is not set. Gemini-dependent features will not work. " +
-    "The application might show a warning or be in a degraded state. " +
-    "Ensure process.env.API_KEY is configured for development or use a secure backend for production."
-  );
-  // App.tsx handles showing a prominent UI warning about API_KEY_MISSING.
+if (!API_KEY) {
+  console.error("API_KEY is not set. Please set the API_KEY environment variable.");
+  // Potentially throw an error or handle this state in the UI
 }
+
+const ai = new GoogleGenAI({ apiKey: API_KEY! }); // Non-null assertion, assuming it's handled
 
 const isValidBloomLevel = (level: string): level is BloomLevel => {
   return BLOOM_LEVELS_LIST.includes(level as BloomLevel);
 };
 
 export const analyzeInstrumentText = async (text: string): Promise<AnalysisItem[]> => {
-  if (!ai) {
-    console.error("Gemini AI client is not initialized because API_KEY is missing.");
-    throw new Error("La configuración de la API de IA (Gemini) está incompleta. No se puede analizar el instrumento.");
-  }
+  if (!API_KEY) throw new Error("API key is missing. Cannot call Gemini API.");
   
   const prompt = `
 Eres un experto en pedagogía y la Taxonomía de Bloom. Tu tarea es analizar el siguiente instrumento de evaluación.
@@ -107,10 +98,7 @@ Asegúrate de que la salida sea un JSON válido. Si no se encuentran ítems eval
 };
 
 export const generateTextualSummary = async (items: AnalysisItem[]): Promise<string> => {
-  if (!ai) {
-    console.error("Gemini AI client is not initialized because API_KEY is missing.");
-    throw new Error("La configuración de la API de IA (Gemini) está incompleta. No se puede generar el resumen.");
-  }
+  if (!API_KEY) throw new Error("API key is missing. Cannot call Gemini API.");
   if (items.length === 0) {
     return "No se encontraron ítems analizables para generar un resumen.";
   }
