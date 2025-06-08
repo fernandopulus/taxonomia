@@ -1,18 +1,16 @@
-
 {
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
-    "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler", // Recommended for Vite
-    "allowImportingTsExtensions": true, // If using TypeScript 5.0+
+    "moduleResolution": "bundler", 
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "isolatedModules": true, // Required by Vite
-    "noEmit": true,          // tsc only performs type checking; Vite handles transpilation and bundling
-    "jsx": "react-jsx",      // Use modern JSX transform
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
 
     /* Linting / Strictness */
     "strict": true,
@@ -21,32 +19,31 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
 
-    /* Interoperability */
-    "allowSyntheticDefaultImports": true, // For compatibility with some libraries
+    /* Interoperabilidad */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
 
-    /* Path Aliases (optional, match your import map if used in TS files) */
-    "baseUrl": ".", // Base directory for path aliases
+    /* Soporte de tipos (esto corrige tus errores) */
+    "types": ["vite/client", "react", "react-dom"],
+
+    /* Path Aliases */
+    "baseUrl": ".",
     "paths": {
       "@/components/*": ["./components/*"],
       "@/services/*": ["./services/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/types": ["./types.ts"],
       "@/constants": ["./constants.ts"]
-      // Add other aliases if needed, e.g., "@/*": ["./*"] for root-level modules
-    },
-    "types": ["vite/client"] // Provides type definitions for Vite-specific features like import.meta.env
+    }
   },
   "include": [
-    // Include all .ts and .tsx files in the project for type checking
     "**/*.ts",
     "**/*.tsx"
-    // Ensure vite.config.ts is also type-checked if you want stricter checks on its config
-    // "vite.config.ts" // Already covered by **/*.ts if at root
   ],
   "exclude": [
     "node_modules",
-    "dist", // Exclude build output
-    "**/__tests__/**", // Exclude test files if any in this pattern
-    "react_app_base.jsx" // Explicitly exclude the problematic file
+    "dist",
+    "**/__tests__/**",
+    "react_app_base.jsx"
   ]
 }
