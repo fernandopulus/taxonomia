@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { RawAnalysisItem, AnalysisItem, BloomLevel } from '../types';
 import { BLOOM_LEVELS_LIST } from "../constants";
@@ -7,10 +6,9 @@ const API_KEY = process.env.API_KEY;
 
 if (!API_KEY) {
   console.error("API_KEY is not set. Please set the API_KEY environment variable.");
-  // Potentially throw an error or handle this state in the UI
 }
 
-const ai = new GoogleGenAI({ apiKey: API_KEY! }); // Non-null assertion, assuming it's handled
+const ai = new GoogleGenAI({ apiKey: API_KEY! });
 
 const isValidBloomLevel = (level: string): level is BloomLevel => {
   return BLOOM_LEVELS_LIST.includes(level as BloomLevel);
@@ -51,21 +49,27 @@ Asegúrate de que la salida sea un JSON válido. Si no se encuentran ítems eval
       contents: prompt,
       config: {
         responseMimeType: "application/json",
-        temperature: 0.2, // Lower temperature for more deterministic classification
+        temperature: 0.2,
       },
     });
 
+    if (!response.text) {
+      throw new Error("La respuesta de la IA no contiene texto.");
+    }
+
     let jsonStr = response.text.trim();
+
+    // Extraer JSON si viene dentro de ```
     const fenceRegex = /^\`\`\`(\w*)?\s*\n?(.*?)\n?\s*\`\`\`$/s;
     const match = jsonStr.match(fenceRegex);
     if (match && match[2]) {
       jsonStr = match[2].trim();
     }
-    
+
     const rawItems: RawAnalysisItem[] = JSON.parse(jsonStr);
-    
+
     return rawItems
-      .filter(item => item.item_text && item.bloom_level) // Ensure essential fields are present
+      .filter(item => item.item_text && item.bloom_level)
       .map((item, index) => {
         if (isValidBloomLevel(item.bloom_level)) {
           return {
@@ -75,11 +79,11 @@ Asegúrate de que la salida sea un JSON válido. Si no se encuentran ítems eval
           };
         }
         console.warn(`Invalid Bloom level received: ${item.bloom_level} for item: ${item.item_text}. Defaulting to Recordar.`);
-        return { // Default or skip invalid items
-            id: `item-${Date.now()}-${index}`,
-            item_text: item.item_text,
-            bloom_level: BloomLevel.RECORDAR, // Defaulting, or could be filtered out
-          };
+        return {
+          id: `item-${Date.now()}-${index}`,
+          item_text: item.item_text,
+          bloom_level: BloomLevel.RECORDAR,
+        };
       })
       .filter(item => item !== null) as AnalysisItem[];
 
@@ -87,11 +91,10 @@ Asegúrate de que la salida sea un JSON válido. Si no se encuentran ítems eval
     console.error("Error analyzing instrument text with Gemini:", error);
     let errorMessage = "Error al analizar el instrumento con IA.";
     if (error instanceof Error) {
-        errorMessage += ` Detalles: ${error.message}`;
+      errorMessage += ` Detalles: ${error.message}`;
     }
-    // Check if the error is from Gemini API about unsafe content
     if (error && typeof error === 'object' && 'message' in error && (error as any).message.includes('SAFETY')) {
-        errorMessage = "El contenido del instrumento fue bloqueado por razones de seguridad por la IA. Por favor, revisa el texto e inténtalo de nuevo.";
+      errorMessage = "El contenido del instrumento fue bloqueado por razones de seguridad por la IA. Por favor, revisa el texto e inténtalo de nuevo.";
     }
     throw new Error(errorMessage);
   }
@@ -102,9 +105,9 @@ export const generateTextualSummary = async (items: AnalysisItem[]): Promise<str
   if (items.length === 0) {
     return "No se encontraron ítems analizables para generar un resumen.";
   }
-  
+
   const analysisDataSummary = items.map(item => ({
-    item: item.item_text.substring(0, 50) + (item.item_text.length > 50 ? '...' : ''), // Truncate for prompt brevity
+    item: item.item_text.substring(0, 50) + (item.item_text.length > 50 ? '...' : ''),
     level: item.bloom_level
   }));
 
@@ -128,7 +131,13 @@ Por favor, genera el resumen para los datos proporcionados.
         temperature: 0.5,
       }
     });
+
+    if (!response.text) {
+      throw new Error("La respuesta de la IA no contiene texto.");
+    }
+
     return response.text.trim();
+
   } catch (error) {
     console.error("Error generating textual summary with Gemini:", error);
     throw new Error("Error al generar el resumen textual con IA.");
