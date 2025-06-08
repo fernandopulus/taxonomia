@@ -4,7 +4,6 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
 
-    /* Bundler mode */
     "moduleResolution": "bundler", 
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
@@ -12,38 +11,28 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting / Strictness */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
 
-    /* Interoperabilidad */
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
-    /* Soporte de tipos (esto corrige tus errores) */
     "types": ["vite/client", "react", "react-dom"],
 
-    /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["./components/*"],
-      "@/services/*": ["./services/*"],
-      "@/hooks/*": ["./hooks/*"],
-      "@/types": ["./types.ts"],
-      "@/constants": ["./constants.ts"]
+      "@/components/*": ["components/*"],
+      "@/services/*": ["services/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/types": ["types.ts"],
+      "@/types/*": ["types/*"],
+      "@/constants": ["constants.ts"],
+      "@/constants/*": ["constants/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/__tests__/**",
-    "react_app_base.jsx"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", "**/__tests__/**", "react_app_base.jsx"]
 }
