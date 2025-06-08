@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Subject, GradeLevel } from '../types';
 import { SUBJECTS_LIST, GRADE_LEVELS_LIST } from '../constants';
 import { AnalyzeIcon, SpinnerIcon, UploadIcon, TrashIcon } from './icons';
@@ -6,17 +6,14 @@ import * as pdfjsLib from 'pdfjs-dist';
 import mammoth from 'mammoth';
 
 // Set up PDF.js worker
-// This is crucial for pdf.js to work.
-// We use the path defined in the import map to ensure version consistency.
 if (typeof window !== 'undefined') {
     // @ts-ignore
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/build/pdf.worker.min.mjs';
 }
 
-
 interface InstrumentFormProps {
   onSubmit: (text: string, subject: Subject, grade: GradeLevel, title: string) => void;
-  isLoading: boolean; // This is for AI analysis loading
+  isLoading: boolean;
 }
 
 const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) => {
@@ -54,7 +51,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
       setFileInfo({ name: file.name, type: file.type });
       setFormError(null);
       setFileMessage(null);
-      setInstrumentText(''); // Clear previous text
+      setInstrumentText('');
       setIsFileProcessing(true);
 
       try {
@@ -93,25 +90,21 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInstrumentText(e.target.value);
-    // If user types, and a file was previously selected/processed,
-    // we assume manual override. The fileInfo can remain for context
-    // but the direct link between file content and textarea content is now manual.
-    // setFileMessage("Contenido del área de texto modificado manualmente."); // Optional: could be noisy
   };
 
   const clearFileSelection = () => {
     setFileInfo(null);
     setFileMessage(null);
-    setInstrumentText(''); // Clear text when file is removed
+    setInstrumentText('');
     setFormError(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Reset file input
+      fileInputRef.current.value = "";
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormError(null); // Clear previous general errors on new submission attempt
+    setFormError(null);
 
     if (!instrumentText.trim()) {
       setFormError("El texto del instrumento no puede estar vacío. Si subió un archivo, asegúrese de que se haya procesado correctamente o pegue el contenido manualmente.");
@@ -156,16 +149,16 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
           Cargar Archivo (Recomendado: PDF, DOCX, TXT)
         </label>
         <div className="flex items-center space-x-2">
-            <input
-                type="file"
-                id="fileUpload"
-                ref={fileInputRef}
-                accept=".pdf,.doc,.docx,.txt,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                onChange={handleFileChange}
-                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 disabled:opacity-50"
-                disabled={isFileProcessing || isLoading}
-                aria-describedby="fileProcessingMessage"
-            />
+          <input
+            type="file"
+            id="fileUpload"
+            ref={fileInputRef}
+            accept=".pdf,.doc,.docx,.txt,text/plain,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            onChange={handleFileChange}
+            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 disabled:opacity-50"
+            disabled={isFileProcessing || isLoading}
+            aria-describedby="fileProcessingMessage"
+          />
         </div>
         {fileInfo && (
           <div className="mt-2 text-sm text-slate-600 bg-slate-50 p-2 rounded-md flex justify-between items-center">
@@ -181,27 +174,27 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
             </button>
           </div>
         )}
-         {isFileProcessing && (
-            <div id="fileProcessingMessage" className="mt-1 text-sm text-indigo-600 flex items-center">
-                <SpinnerIcon className="w-4 h-4 mr-2 animate-spin"/> 
-                Procesando archivo...
-            </div>
+        {isFileProcessing && (
+          <div id="fileProcessingMessage" className="mt-1 text-sm text-indigo-600 flex items-center">
+            <SpinnerIcon className="w-4 h-4 mr-2 animate-spin" /> 
+            Procesando archivo...
+          </div>
         )}
         {fileMessage && !isFileProcessing && (
-            <p 
-                id="fileProcessingMessage"
-                className={`mt-1 text-xs p-2 rounded-md ${
-                    fileMessage.includes("Error") || fileMessage.includes("no es compatible") || fileMessage.includes("copie y pegue") 
-                        ? "text-amber-700 bg-amber-50" 
-                        : "text-green-700 bg-green-50"
-                }`}
-                role="status"
-            >
-                {fileMessage}
-            </p>
+          <p 
+            id="fileProcessingMessage"
+            className={`mt-1 text-xs p-2 rounded-md ${
+              fileMessage.includes("Error") || fileMessage.includes("no es compatible") || fileMessage.includes("copie y pegue") 
+              ? "text-amber-700 bg-amber-50" 
+              : "text-green-700 bg-green-50"
+            }`}
+            role="status"
+          >
+            {fileMessage}
+          </p>
         )}
       </div>
-      
+
       <div>
         <label htmlFor="instrumentText" className="block text-sm font-medium text-slate-700 mb-1">
           Texto del Instrumento de Evaluación (Extraído del archivo o pegado manualmente)
@@ -232,7 +225,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
             aria-required="true"
           >
             <option value="" disabled>Seleccione una asignatura</option>
-            {SUBJECTS_LIST.map(subject => (
+            {SUBJECTS_LIST.map((subject: Subject) => (
               <option key={subject} value={subject}>{subject}</option>
             ))}
           </select>
@@ -250,7 +243,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
             aria-required="true"
           >
             <option value="" disabled>Seleccione un nivel</option>
-            {GRADE_LEVELS_LIST.map(grade => (
+            {GRADE_LEVELS_LIST.map((grade: GradeLevel) => (
               <option key={grade} value={grade}>{grade}</option>
             ))}
           </select>
@@ -274,8 +267,7 @@ const InstrumentForm: React.FC<InstrumentFormProps> = ({ onSubmit, isLoading }) 
             <SpinnerIcon className="w-5 h-5 mr-2 animate-spin" />
             Procesando archivo...
           </>
-        )
-        : (
+        ) : (
           <>
             <AnalyzeIcon className="w-5 h-5 mr-2" />
             Analizar Instrumento
