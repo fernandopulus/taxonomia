@@ -1,4 +1,4 @@
-
+ 
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { RawAnalysisItem, AnalysisItem, BloomLevel } from '@/types'; // Actualizado para usar alias
 import { BLOOM_LEVELS_LIST } from "@/constants"; // Actualizado para usar alias
