@@ -1,7 +1,7 @@
 
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
-import { RawAnalysisItem, AnalysisItem, BloomLevel } from '../types';
-import { BLOOM_LEVELS_LIST } from "../constants";
+import { RawAnalysisItem, AnalysisItem, BloomLevel } from '@/types'; // Actualizado para usar alias
+import { BLOOM_LEVELS_LIST } from "@/constants"; // Actualizado para usar alias
 
 const API_KEY = process.env.API_KEY;
 
@@ -55,7 +55,7 @@ Asegúrate de que la salida sea un JSON válido. Si no se encuentran ítems eval
       },
     });
 
-    let jsonStr = response.text.trim();
+    let jsonStr = (response.text ?? '').trim(); // Manejar posible undefined
     const fenceRegex = /^\`\`\`(\w*)?\s*\n?(.*?)\n?\s*\`\`\`$/s;
     const match = jsonStr.match(fenceRegex);
     if (match && match[2]) {
@@ -128,7 +128,7 @@ Por favor, genera el resumen para los datos proporcionados.
         temperature: 0.5,
       }
     });
-    return response.text.trim();
+    return (response.text ?? '').trim(); // Manejar posible undefined
   } catch (error) {
     console.error("Error generating textual summary with Gemini:", error);
     throw new Error("Error al generar el resumen textual con IA.");
